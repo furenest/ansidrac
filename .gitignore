@@ -1,1 +1,3 @@
 /venv
+collections/*
+!collections/requirements.yml
