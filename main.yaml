@@ -1,0 +1,20 @@
+---
+- hosts: idractest03
+  connection: local
+  name: Get idrac facts
+  gather_facts: false
+
+  tasks:
+
+    - name: Get BIOS attributes
+      community.general.redfish_info:
+        category: Systems
+        command: GetBiosAttributes
+        baseuri: "{{ baseuri }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+      register: result
+
+    - name: Print output
+      ansible.builtin.debug:
+        msg: "{{ result }}"
