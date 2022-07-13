@@ -1,5 +1,5 @@
 ---
-- hosts: idractest03
+- hosts: testidracs
   connection: local
   name: Get idrac facts
   gather_facts: false
@@ -14,7 +14,24 @@
         username: "{{ username }}"
         password: "{{ password }}"
       register: result
+      when: false
 
     - name: Print output
       ansible.builtin.debug:
         msg: "{{ result }}"
+      when: false
+
+    - name: upload uefi.json file
+      dellemc.openmanage.idrac_server_config_profile:
+        idrac_ip: "{{ baseuri }}"
+        idrac_user: "{{ username }}"
+        idrac_password: "{{ password }}"
+        share_name: files
+        scp_file: R7425-uefi.json
+        command: import
+        job_wait: true
+      register: some_values
+
+    - name: Output some vars
+      ansible.builtin.debug:
+        msg: "{{ some_values }}"
