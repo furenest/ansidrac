@@ -14,12 +14,12 @@
         username: "{{ username }}"
         password: "{{ password }}"
       register: result
-      when: false
+      when: true
 
     - name: Print output
       ansible.builtin.debug:
         msg: "{{ result }}"
-      when: false
+      when: true
 
     - name: upload uefi.json file
       dellemc.openmanage.idrac_server_config_profile:
@@ -31,7 +31,9 @@
         command: import
         job_wait: true
       register: some_values
+      when: false
 
     - name: Output some vars
       ansible.builtin.debug:
         msg: "{{ some_values }}"
+      when: false
