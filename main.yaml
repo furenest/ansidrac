@@ -1,11 +1,15 @@
 ---
-- hosts: testidracs
+- hosts: idracs
   connection: local
-  name: Get idrac facts
-  gather_facts: false
+  name: Get idrac facts and update idrac config with scp-file
+  gather_facts: false  
 
   tasks:
-
+    
+    # - name: Include secret vars
+    #   ansible.builtin.include_vars:
+    #     file: ../secretfilepath/somefile.yaml
+    
     - name: Get BIOS attributes
       community.general.redfish_info:
         category: Systems
@@ -26,14 +30,14 @@
         idrac_ip: "{{ baseuri }}"
         idrac_user: "{{ username }}"
         idrac_password: "{{ password }}"
-        share_name: files
+        share_name: files  # truleg berre namnet på rel-dir
         scp_file: R7425-uefi.json
         command: import
         job_wait: true
-      register: some_values
+      register: import_result
       when: false
 
     - name: Output some vars
       ansible.builtin.debug:
-        msg: "{{ some_values }}"
+        msg: "{{ import_result }}"
       when: false
